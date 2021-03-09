@@ -1,0 +1,32 @@
+{
+	"name": "exinfinite/ytc",
+	"description": "youtube channel videos list",
+	"version": "1.0.0",
+	"type": "library",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Exinfinite Chen",
+			"email": "chen.min.home@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"config": {
+		"process-timeout": 1800,
+		"vendor-dir": "vendor",
+		"optimize-autoloader": true,
+		"sort-packages": true
+	},
+	"minimum-stability": "stable",
+	"autoload": {
+		"psr-4": {
+			"Exinfinite\\YTC\\": "src/"
+		}
+	},
+	"require": {
+		"php": "~5.6.0",
+		"guzzlehttp/guzzle": "^6.5",
+		"phpfastcache/phpfastcache": "^6.1",
+		"tightenco/collect": "^5.4"
+	}
+}
