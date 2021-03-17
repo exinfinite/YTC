@@ -1,6 +1,6 @@
 {
 	"name": "exinfinite/ytc",
-	"description": "youtube channel videos list",
+	"description": "fetch youtube videos by youtube data api",
 	"version": "1.0.0",
 	"type": "library",
 	"license": "MIT",
