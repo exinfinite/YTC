@@ -28,5 +28,7 @@
 		"guzzlehttp/guzzle": "^6.5",
 		"phpfastcache/phpfastcache": "^6.1",
 		"tightenco/collect": "^5.4"
+	},
+	"require-dev": {
 	}
 }

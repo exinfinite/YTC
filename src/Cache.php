@@ -11,8 +11,14 @@ class Cache {
         $this->expire = (new \DateTime(date('Y-m-d')))->modify('+1 day');
         $this->pool = CacheManager::getInstance('Sqlite');
     }
+    private function getItem($identity) {
+        return $this->pool->getItem($identity);
+    }
+    private function getData($identity) {
+        return $this->getItem($identity)->get();
+    }
     /**
-     * make cache key
+     * 產生 cache key
      *
      * @param mixed $value can be serialized
      * @return string
@@ -20,14 +26,14 @@ class Cache {
     public function mapKey($value, $prefix = '') {
         return $prefix . md5(serialize($value));
     }
-    private function getItem($identity) {
-        return $this->pool->getItem($identity);
-    }
-
-    private function getData($identity) {
-        return $this->getItem($identity)->get();
-    }
-    private function force($identity, $data = null) {
+    /**
+     * 寫入快取(若已存在，強制覆寫)
+     *
+     * @param String $identity
+     * @param mixed $data can be serialized
+     * @return Bool
+     */
+    public function force($identity, $data = null) {
         if (is_null($data)) {
             return false;
         }
@@ -35,12 +41,23 @@ class Cache {
         $this->pool->save($item);
         return true;
     }
-    //overwrite defalut ttl
+    /**
+     * 設定到期時間
+     *
+     * @param \DateTime $datetime
+     * @return this
+     */
     public function setExpire(\DateTime $datetime) {
         $this->expire = $datetime;
         return $this;
     }
-    //hit cache or write cache
+    /**
+     * hit cache or write cache
+     *
+     * @param String $identity
+     * @param callable $data_source
+     * @return unserialize data
+     */
     public function hit($identity, callable $data_source) {
         $item = $this->getItem($identity);
         if ($item->isHit()) {

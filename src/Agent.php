@@ -20,6 +20,10 @@ class Agent {
         return $this->cache;
     }
     /**
+     * 送出請求
+     *
+     * @param string $api
+     * @param Array $query
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function sendRequest($api, Array $query) {
