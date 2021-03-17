@@ -11,6 +11,8 @@ composer require exinfinite/ytc
 ### 初始化
 
 ```php
+use Exinfinite\YTC\Agent;
+use Exinfinite\YTC\PlaylistItems;
 $apikey = "api-key";
 $agent = new Agent($apikey, __DIR__ . '/cache');
 $fetcher = new PlaylistItems($agent);
