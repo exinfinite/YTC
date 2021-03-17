@@ -53,7 +53,7 @@ class PlaylistItems {
      * 請求資料
      *
      * @param boolean $enforce 是否強制更新快取
-     * @return void
+     * @return array
      */
     public function query($enforce = false) {
         $handler = function () {
@@ -72,5 +72,30 @@ class PlaylistItems {
         $rst = call_user_func($handler);
         $this->cache->force($key, $rst);
         return $rst;
+    }
+    /**
+     * 預設資料結構
+     *
+     * @param String $list_id
+     * @param integer $max_rst
+     * @param boolean $assoc true:array;false:json
+     * @return mixed
+     */
+    public function itemsList($list_id, $max_rst = 30, $assoc = false) {
+        $this->setPart(['snippet'])->setPlaylistId($list_id)->setMaxResults((int) $max_rst);
+        $data = collect($this->query())->only(['nextPageToken', 'prevPageToken', 'items', 'pageInfo']);
+        $items = $data
+            ->only(['items'])
+            ->flatten(1)
+            ->map(function ($item) {
+                return collect($item['snippet'])->only(['publishedAt', 'title', 'description', 'thumbnails', 'resourceId']);
+            });
+        $rst = [
+            "nextPageToken" => $data->get('nextPageToken', null),
+            "prevPageToken" => $data->get('prevPageToken', null),
+            "totalResults" => $data->get('pageInfo', null),
+            "items" => $items->toArray(),
+        ];
+        return $assoc === true ? $rst : json_encode($rst, JSON_UNESCAPED_UNICODE);
     }
 }
