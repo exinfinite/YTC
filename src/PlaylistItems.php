@@ -81,7 +81,7 @@ class PlaylistItems {
      * @param boolean $assoc true:array;false:json
      * @return mixed
      */
-    public function itemsList($list_id, $max_rst = 30, $assoc = false) {
+    public function itemsList($list_id, $max_rst = 30, $assoc = true) {
         $this->setPart(['snippet'])->setPlaylistId($list_id)->setMaxResults((int) $max_rst);
         $data = collect($this->query())->only(['nextPageToken', 'prevPageToken', 'items', 'pageInfo']);
         $items = $data
